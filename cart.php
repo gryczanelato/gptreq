@@ -212,9 +212,9 @@ include('connect.php');
                                     <tbody class="border-0">
                                         
                                         <?php
-                                            //Print out values
 
-                                            foreach ($cart_items as $item) {
+                                        if(isset($_SESSION["cart"])) {
+                                            foreach($_SESSION["cart"] as $product_id => $item) {
                                                 $quantity = $item->quantity;
                                                 $product_img = $item->product_img;
                                                 $product_name = $item->product_name;
@@ -253,7 +253,7 @@ include('connect.php');
                                                 </form>
                                             </tr> 
                                         <?php
-                                        }
+                                        }}
                                         ?>
                                         
                                     </tbody>

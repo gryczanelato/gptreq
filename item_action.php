@@ -1,6 +1,12 @@
 <?php
-
 session_start();
+//Check if form is submitted
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    //Get form data
+    $product_name = $_POST['product_name'];
+    $product_price = $_POST['product_price'];
+    $product_img = $_POST['product_img'];
+    $product_id = $_POST['product_id'];
 
     //Add to cart
     if (isset($_POST['add'])) {
@@ -11,12 +17,7 @@ session_start();
         $product_price = $_POST['product_price'];
         $product_img = $_POST['product_img'];
         $product_id = $_POST['product_id'];
-        $temp_arr[] = $product_name;
-        $temp_arr[] = $product_price;
-        $temp_arr[] = $product_img;
-        $temp_arr[] = $product_id;
-        array_push($_SESSION['cart'], $temp_arr);
-        
+        array_push($_SESSION['cart'], [$product_name, $product_price, $product_img, $product_id]);
     }
     if (isset($_POST['remove'])) {
         //Find the item in the array
@@ -33,6 +34,7 @@ session_start();
             unset($_SESSION['cart'][$key]);
         }
     }
+}
 
 echo "<script>location.href='cart.php'</script>";
 
