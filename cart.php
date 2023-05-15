@@ -1,74 +1,87 @@
-<?php
-session_start(); 
+<?php session_start(); 
 include('connect.php');
 
-//retrieve the username from the session variable
-if(isset($_SESSION['user_login']) && $_SESSION['user_login'] == "user"){
-    $user_username = $_SESSION['user_username'];
-} elseif(isset($_SESSION['admin_login']) && $_SESSION['admin_login'] == "admin"){
-    $admin_username = $_SESSION['admin_username']; 
-}
+    //retrieve the username from the session variable
+    if(isset($_SESSION['user_login']) && $_SESSION['user_login'] == "user"){
+        $user_username = $_SESSION['user_username'];
+    }
 
-//set cart session
-if (!isset($_SESSION['cart'])) {
-    $_SESSION['cart'] = array();
-}
+    elseif(isset($_SESSION['admin_login']) && $_SESSION['admin_login'] == "admin"){
+        $admin_username = $_SESSION['admin_username']; 
+    }
 
-$cart_items = $_SESSION['cart'];
+    //set cart session
+    if (!isset($_SESSION['cart'])) {
+        $_SESSION['cart'] = array();
+    }
 
-foreach ($cart_items as $cart_item) {
-    $product_name = $cart_item[0];
-    $product_price = $cart_item[1];
-    $product_img = $cart_item[2];
-    $product_id = $cart_item[3];
-    $quantity = 1;
+    $total_items;
 
-    //check if the item already exists in the cart
-    $item_index = -1;
-    for ($i = 0; $i < count($cart_items); $i++) {
-        if ($cart_items[$i]->product_name === $product_name) {
-            $item_index = $i;
-            break;
+    if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
+        $total_items = count($_SESSION['cart']);
+    } 
+
+    else {
+        $total_items = 0;
+    }
+
+    $cart_items = $_SESSION['cart'];
+
+    //create a new array to store the updated items
+    $cart_items = array();
+
+    foreach ($_SESSION['cart'] as $cart_item) {
+        $product_name = $cart_item[0];
+        $product_price = $cart_item[1];
+        $product_img = $cart_item[2];
+        $product_id = $cart_item[3];
+        $quantity = 1;
+
+        //check if the item already exists in the cart
+        $item_index = -1;
+        for ($i = 0; $i < count($cart_items); $i++) {
+            if ($cart_items[$i]->product_name === $product_name) {
+                $item_index = $i;
+                break;
+            }
+        }
+
+        //if the item exists, update the quantity
+        if ($item_index > -1) {
+            $cart_items[$item_index]->quantity++;
+        }
+        
+        //otherwise, add a new item to the cart
+        else {
+            $item = new stdClass();
+            $item->product_name = $product_name;
+            $item->product_price = $product_price;
+            $item->product_img = $product_img;
+            $item->product_id = $product_id;
+            $item->quantity = $quantity;
+            $cart_items[] = $item;
         }
     }
 
-    //if the item exists, update the quantity
-    if ($item_index > -1) {
-        $cart_items[$item_index]->quantity++;
+    //get the total price of items in the cart
+    $sub_total = 0;
+    foreach ($cart_items as $item) {
+        $sub_total += floatval($item->product_price) * $item->quantity;
     }
-    //otherwise, add a new item to the cart
-    else {
-        $item = new stdClass();
-        $item->product_name = $product_name;
-        $item->product_price = $product_price;
-        $item->product_img = $product_img;
-        $item->product_id = $product_id;
-        $item->quantity = $quantity;
-        $cart_items[] = $item;
+
+    $delivery = 4.99;
+    if ($sub_total >= 35 || $sub_total === 0) {
+        $delivery = 0;
     }
-}
 
-//get the total price of items in the cart
-$sub_total = 0;
-foreach ($cart_items as $item) {
-    $sub_total += floatval($item->product_price) * $item->quantity;
-}
+    $total_price = $sub_total + $delivery;
 
-$delivery = 4.99;
-if ($sub_total >= 35 || $sub_total === 0) {
-    $delivery = 0;
-}
+    if ($delivery === 0) {
+        $delivery = "free";
+    } else {
+        $delivery = "£" . $delivery;
+    }
 
-$total_price = $sub_total + $delivery;
-
-if ($delivery === 0) {
-    $delivery = "free";
-} else {
-    $delivery = "£" . $delivery;
-}
-
-//update the cart session with the new cart items
-$_SESSION['cart'] = $cart_items;
 ?>
 
 <!DOCTYPE html>
@@ -338,16 +351,16 @@ $_SESSION['cart'] = $cart_items;
                     });
                     },
 
-                    onApprove: function(data, actions) {
-                    return actions.order.capture().then(function(orderData) {
+                onApprove: function(data, actions) {
+                return actions.order.capture().then(function(orderData) {
 
-                        if (orderData.status == "COMPLETED") {
-                            <?php
-                            unset($_SESSION['cart']);
-                            ?>
-                            } else {
+                    if (orderData.status == "COMPLETED") {
+                        <?php
+                        unset($_SESSION['cart']);
+                        ?>
+                        } else {
 
-                            }
+                        }
 
                     // Full available details
                     console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
