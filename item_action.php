@@ -37,4 +37,3 @@ session_start();
 echo "<script>location.href='cart.php'</script>";
 
 ?>
-
