@@ -175,7 +175,7 @@ if(!isset($_SESSION)) session_start();
                                             <h2 class="text-sm mb-4"><?php echo $product_desc; ?></h2>
                                             <div class="d-flex">
                                                 <div class="prod-no">
-                                                    <input type="number" step="1" min="1" value="1">
+                                                    <input type="number" name="product_quantity" step="1" min="1" value="1">
                                                 </div>
 
 
