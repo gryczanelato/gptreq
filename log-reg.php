@@ -17,7 +17,7 @@
         <meta property="og:title" content="Joga kundalini w Edynburgu">
         <meta property="og:description" content="Zobacz więcej!">
         <meta property="og:image" content="assets/img/logo.png">
-
+        
         <!-- Favicon -->
         <link rel="shortcut icon" type="image/png" href="assets/img/favicon-logo.png">
 
@@ -27,13 +27,19 @@
         <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins&display=swap" rel="stylesheet">
 
         <!-- Icons -->
-        <script src="https://kit.fontawesome.com/8dfa46e6e2.js" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+
+        <!-- JQuery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
         <!-- Styles -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+        <!-- Animations -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
 
         <!-- JS animations -->
         <script src="assets/animations/scripts.js"></script>
@@ -59,9 +65,6 @@
                         <ul class="navbar-nav" id="navbarNav">
                             <li class="nav-item">
                                 <a class="nav-link" href="shop.php"><h3>Sklep</h3></a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="index.php"><h3>Główna</h3></a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="index.php#courses"><h3>Kursy</h3></a>
@@ -169,53 +172,58 @@
 
         ?>
             <!-- ======= Login/Register ======= -->
-            <section id="log-reg" class="log-reg">
-                <div class="logreg-container">
-                    <div class="frame">
-                        <div class="logreg-nav">
-                            <ul class="links">
-                                <li class="log-active"><a class="btn btn-logreg"><h3>MAM KONTO</h3></a></li>
-                                <li class="reg-inactive"><a class="btn btn-logreg"><h3>NOWY UŻYTKOWNIK</h3></a></li>
-                            </ul>
-                        </div>
-                        <div>
-                            <!-- Login form -->
-                            <form class="form-log" action="log-reg.php" method="POST" name="form">
-                                <label for="user_email"><h5>Adres email</h5></label>
-                                <input class="form-styling" type="text" name="user_email" required/>
 
-                                <label for="user_password"><h5>Hasło</h5></label>
-                                <input class="form-styling" type="password" name="user_password" required/>
+            <!-- Credentials:
+                https://bbbootstrap.com/snippets/bootstrap-login-63670890 
+                User: speed freak11 -->
+                <section id="log-reg" class="log-reg">
+                    <div class="logreg-container">
+                        <div class="frame">
+                            <div class="nav">
+                                <ul class="links">
+                                    <li class="signin-active"><a class="btn">MAM KONTO</a></li>
+                                    <li class="signup-inactive"><a class="btn">NOWY UŻYTKOWNIK</a></li>
+                                </ul>
+                            </div>
+                            <div class="logreg-forms">
+                                <!-- Login form -->
+                                <form class="form-signin" action="log-reg.php" method="POST" name="form">
+                                    <label for="user_email"><h5>Adres email</h5></label>
+                                    <input class="form-styling" type="text" name="user_email" required/>
 
-                                <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4 pt-4 wow fadeIn">
-                                    <input class="px-2 btn btn-log" style="color: #f5f5f5;" type="submit" value="Login" name="submit-btn-log">
-                                </div>
-                            </form>
+                                    <label for="user_password"><h5>Hasło</h5></label>
+                                    <input class="form-styling" type="password" name="user_password" required/>
 
-                            <!-- Register form -->
-                            <form class="form-reg" action="" method="post" name="form">
-                                <label for="user_name"><h5>Imię i nazwisko</h5></label>
-                                <input class="form-styling" type="text" name="user_name" id="user_name" required/>
+                                    <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4 pt-4 wow fadeIn">
+                                        <input class="px-2 btn btn-signin" style="color: #f5f5f5; min-width: 150px; font-size: 20px;" type="submit" value="Zaloguj się" name="submit-btn-log">
+                                    </div>
+                                </form>
 
-                                <label for="user_email"><h5>Adres email</h5></label>
-                                <input class="form-styling" type="text" name="user_email" id="user_email" required/>
+                                <!-- Register form -->
+                                <form class="form-signup" action="" method="post" name="form">
+                                    <label for="user_name"><h5>Imię i nazwisko</h5></label>
+                                    <input class="form-styling" type="text" name="user_name" id="user_name" required/>
 
-                                <label for="user_address"><h5>Adres domowy z kodem pocztowym</h5></label>
-                                <input class="form-styling" type="text" name="user_address" id="user_address" required/>
+                                    <label for="user_email"><h5>Adres email</h5></label>
+                                    <input class="form-styling" type="text" name="user_email" id="user_email" required/>
 
-                                <label for="user_password"><h5>Hasło</h5></label>
-                                <input class="form-styling" type="password" name="user_password" id="user_password" minlength="8" required/>
+                                    <label for="user_address"><h5>Adres domowy z kodem pocztowym</h5></label>
+                                    <input class="form-styling" type="text" name="user_address" id="user_address" required/>
 
-                                <label for="check_password"><h5>Powtórz hasło</h5></label>
-                                <input class="form-styling" type="password" name="check_password" id="check_password" required/>
+                                    <label for="user_password"><h5>Hasło</h5></label>
+                                    <input class="form-styling" type="password" name="user_password" id="user_password" minlength="8" required/>
 
-                                <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4 wow fadeIn">
-                                    <input class="px-2 btn btn-reg" style="color: #f5f5f5;" type="submit" value="Register" name="submit-btn-reg"/>
-                                </div>
-                            </form>
+                                    <label for="check_password"><h5>Powtórz hasło</h5></label>
+                                    <input class="form-styling" type="password" name="check_password" id="check_password" required/>
+
+                                    <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4 wow fadeIn">
+                                        <input class="px-2 btn btn-signup" style="color: #f5f5f5; min-width: 150px; font-size: 20px;" type="submit" value="Register" name="submit-btn-reg"/>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
-            </section>
+                </section>
             <!-- End Login/Register -->
 
             <!-- ======= Footer ======= -->
